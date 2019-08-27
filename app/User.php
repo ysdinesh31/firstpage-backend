@@ -39,7 +39,7 @@ class User extends Model implements JWTSubject, AuthenticatableContract, Authori
 
     public function getJWTCustomClaims()
     {
-        return ['type' => 'user'];
+        return ['type' => $this->role];
     }
     public function isAdmin()
     {
