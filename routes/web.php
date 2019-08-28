@@ -1,5 +1,6 @@
 <?php
 
+use App\Events\TaskEvent;
 /*
 |--------------------------------------------------------------------------
 | Application Routes
@@ -11,9 +12,12 @@
 |
 */
 
-$router->get('/', function () {
-    return response(200);
+
+
+$router->get('/event', function () {
+    event(new TaskEvent("Just Testing!"));
 });
+
 $router->group(['middleware' => 'cors'], function ($router) {
     $router->post('/login/checklogin', 'AuthController@postLogin');
     $router->post('/login/register', 'RegisterController@store');
@@ -23,7 +27,6 @@ $router->group(['middleware' => 'cors'], function ($router) {
         $router->post('/login/userlist', 'UserListingController@userlist');
         $router->post('/login/delete', 'UserListingController@delete');
         $router->post('/login/changerole', 'UserListingController@changerole');
-
         $router->post('/login/profile', 'UserListingController@profile');
         $router->post('/login/tasklist', 'TaskListingController@tasklist');
         $router->post('/login/addtask', 'TaskListingController@create');
