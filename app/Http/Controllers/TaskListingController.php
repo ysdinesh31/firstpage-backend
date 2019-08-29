@@ -35,6 +35,7 @@ class TaskListingController extends Controller
         //     ->leftJoin('users as u1', 'u1.id', '=', 'u3.deleted_by')
         //     ->select('u3.id', 'u3.description', 'u3.status', 'u3.due_date', 'u3.title', 'u3.assignedTo', 'u4.name as assignee_name', 'u2.name as create_name', 'u1.name as delete_name', 'u1.id as delete_id', 'u2.id as create_id', 'u4.id as assignee_id');
         $res = Task::with('assignedto', 'createdby', 'deletedby');
+        // echo (json_encode($res->first()->toArray()["assignedto"]));
 
 
 
@@ -51,7 +52,7 @@ class TaskListingController extends Controller
 
             return $query->paginate($this->pages);
         } else {
-            return $res->where('u3.assignedTo', $user->id)->paginate($this->pages);
+            return $query->where('assignedTo', $user->id)->paginate($this->pages);
         }
     }
 
