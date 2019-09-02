@@ -14,11 +14,13 @@
 
 
 
-$router->get('/event', function () {
-    event(new TaskEvent("Just Testing!"));
-});
+use Illuminate\Http\Request;
 
 $router->group(['middleware' => 'cors'], function ($router) {
+    $router->post('/login/authBroadcast', function (Request $request) {
+        $pusher = new Pusher\Pusher(env('PUSHER_APP_KEY'), env('PUSHER_APP_SECRET'), env('PUSHER_APP_ID'), array('cluster' => env('PUSHER_APP_CLUSTER'), 'useTLS' => 'true'));
+        return $pusher->socket_auth($request->channel_name, $request->socket_id);
+    });
     $router->post('/login/checklogin', 'AuthController@postLogin');
     $router->post('/login/register', 'RegisterController@store');
     $router->post('/login/forgot', 'ForgotPasswordController@forgot');
