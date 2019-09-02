@@ -2,11 +2,14 @@
 
 namespace App\Listeners;
 
-use App\Events\TaskEvent;
+use App\Events\TaskCreateEvent;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
+use Illuminate\Support\Facades\Queue;
+use App\Jobs\CreateTaskMailJob;
 
-class TaskListener
+
+class TaskCreateListener
 {
     /**
      * Create the event listener.
@@ -24,8 +27,9 @@ class TaskListener
      * @param  TaskEvent  $event
      * @return void
      */
-    public function handle(TaskEvent $event)
+    public function handle(TaskCreateEvent $event)
     {
+        Queue::later(5, new CreateTaskMailJob($event->task));
         return $event;
     }
 }

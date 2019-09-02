@@ -14,6 +14,7 @@ use DB;
 use App\User;
 use App\Task;
 use Tymon\JWTAuth\Token as jwtToken;
+use App\Events\TaskCreateEvent;
 
 class TaskListingController extends Controller
 {
@@ -77,6 +78,7 @@ class TaskListingController extends Controller
         $task->due_date = $request->due_date;
         $task->created_by = $user->id;
         $task->save();
+        event(new TaskCreateEvent($task));
     }
 
     public function delete(Request $request)
